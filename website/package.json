@@ -18,6 +18,7 @@
     "date-fns": "^2.29.3",
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.3",
+    "firebase": "^9.17.2",
     "framer-motion": "^10.2.4",
     "microcms-ts-sdk": "^0.4.1",
     "next": "13.2.3",
