@@ -28,6 +28,7 @@ jobs:
       - run: npm ci
       - name: main process
         env:
+          TZ: Asia/Tokyo
           MICROCMS_API_DOMAIN: ${{ secrets.MICROCMS_API_DOMAIN }}
           MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
         run: node createArticle.js
