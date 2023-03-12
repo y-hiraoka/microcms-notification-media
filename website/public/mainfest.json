@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "Web Push Media",
+  "short_name": "Web Push Media",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "Webでも通知が来るメディア"
+}
