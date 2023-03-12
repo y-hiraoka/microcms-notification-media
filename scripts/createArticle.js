@@ -1,6 +1,6 @@
 const { createClient } = require("microcms-js-sdk");
 const { format } = require("date-fns");
-const { ja } = require("date-fns/locale");
+const ja = require("date-fns/locale/ja");
 const { faker } = require("@faker-js/faker");
 
 const main = async () => {
