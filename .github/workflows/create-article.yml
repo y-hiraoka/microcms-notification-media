@@ -1,0 +1,33 @@
+name: Create Article
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 9,17 * * *"
+
+defaults:
+  run:
+    working-directory: scripts
+
+jobs:
+  create_article:
+    name: Create Article
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - run: npm ci
+      - name: main process
+        env:
+          MICROCMS_API_DOMAIN: ${{ secrets.MICROCMS_API_DOMAIN }}
+          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+      - run: node createArticle.js
