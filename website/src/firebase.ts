@@ -1,6 +1,5 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getMessaging, getToken } from "firebase/messaging";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -16,26 +15,17 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const firebaseApp = initializeApp(firebaseConfig);
 
 export async function requestNotificationPermission() {
-  const firestore = getFirestore(app);
-  const messaging = getMessaging(app);
+  const messaging = getMessaging(firebaseApp);
 
   try {
-    const token = await getToken(messaging, {
+    return await getToken(messaging, {
       vapidKey: process.env.NEXT_PUBLIC_FIREBASE_WEBPUSH_KEY,
     });
-
-    if (token) {
-      console.log(`Notification token: ${token}`);
-      await addDoc(collection(firestore, "notification"), { token: token });
-    } else {
-      console.log(
-        "No registration token available. Request permission to generate one."
-      );
-    }
   } catch (error) {
     console.error("An error occurred while retrieving token. ", error);
+    return null;
   }
 }

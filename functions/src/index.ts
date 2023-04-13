@@ -4,10 +4,33 @@ import { getMessaging } from "firebase-admin/messaging";
 
 admin.initializeApp();
 
-export const subscribeToNewArticle = functions.firestore
+const setupSubscription = async (subscriptionState: SubscriptionState) => {
+  await Promise.all(
+    Object.entries(subscriptionState.categorySubscriptions).map(
+      ([categoryId, subscribed]) => {
+        if (subscribed) {
+          getMessaging().subscribeToTopic(subscriptionState.token, categoryId);
+        } else {
+          getMessaging().unsubscribeFromTopic(
+            subscriptionState.token,
+            categoryId
+          );
+        }
+      }
+    )
+  );
+};
+
+export const subscribeCategoriesOnCreate = functions.firestore
   .document("notification/{notificationId}")
   .onCreate(async (snapshot, context) => {
-    await getMessaging().subscribeToTopic(snapshot.data().token, "new-article");
+    await setupSubscription(snapshot.data() as SubscriptionState);
+  });
+
+export const subscribeCategoriesOnUpdate = functions.firestore
+  .document("notification/{notificationId}")
+  .onUpdate(async (snapshot, context) => {
+    await setupSubscription(snapshot.after.data() as SubscriptionState);
   });
 
 export const notifyNewArticle = functions.https.onRequest(
@@ -25,17 +48,20 @@ export const notifyNewArticle = functions.https.onRequest(
 
     const webhook = request.body as WebhookBody;
 
-    if (webhook.type !== "new") {
+    if (
+      webhook.type !== "new" ||
+      webhook.contents?.new?.publishValue == undefined
+    ) {
       response.send({ notified: false });
       return;
     }
 
     await getMessaging().send({
-      topic: "new-article",
+      topic: webhook.contents.new.publishValue.category.id,
       notification: {
         title: "新着記事のお知らせ",
-        body: webhook.contents?.new?.publishValue.title,
-        imageUrl: webhook.contents?.new?.publishValue.thumbnail?.url,
+        body: webhook.contents.new.publishValue.title,
+        imageUrl: webhook.contents.new.publishValue.thumbnail?.url,
       },
       webpush: {
         fcmOptions: {
@@ -59,7 +85,15 @@ type WebhookBody = {
       publishValue: {
         title: string;
         thumbnail?: { url: string };
+        category: { id: string };
       };
     } | null;
   } | null;
+};
+
+type SubscriptionState = {
+  token: string;
+  categorySubscriptions: {
+    [categoryId: string]: boolean;
+  };
 };

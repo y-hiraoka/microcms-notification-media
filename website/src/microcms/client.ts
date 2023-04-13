@@ -5,7 +5,7 @@ import { Category } from "./apis/category";
 type Endpoints = {
   list: {
     articles: Article;
-    category: Category;
+    categories: Category;
   };
 };
 

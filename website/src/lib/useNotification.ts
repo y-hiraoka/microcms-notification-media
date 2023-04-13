@@ -23,9 +23,11 @@ export function useNotification() {
 
   const requestPermission = useCallback(() => {
     setIsRequesting(true);
-    requestNotificationPermission()
-      .then(() => revalidate())
-      .finally(() => setIsRequesting(false));
+
+    return requestNotificationPermission().finally(() => {
+      revalidate();
+      setIsRequesting(false);
+    });
   }, [revalidate]);
 
   return { permission, requestPermission, isRequesting };

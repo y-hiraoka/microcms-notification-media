@@ -1,4 +1,4 @@
-import { ArticleCard } from "@/components/ArticleCard";
+import { ArticleList } from "@/components/ArticleList";
 import { microcmsClient, MicroCMSSchema } from "@/microcms/client";
 import { Box, Heading, VisuallyHidden } from "@chakra-ui/react";
 import { GetStaticProps, NextPage } from "next";
@@ -25,30 +25,7 @@ const Home: NextPage<Props> = ({ articles }) => {
           Home
         </Heading>
       </VisuallyHidden>
-      <Box
-        as="ul"
-        listStyleType="none"
-        display="grid"
-        gridTemplateColumns="repeat(6, 1fr)"
-        rowGap="8"
-        columnGap="4"
-      >
-        {articles.map((article, index) => (
-          <Box
-            as="li"
-            key={article.id}
-            gridColumn={
-              index === 0
-                ? ["span 6", "span 6", "span 6", "span 3", "span 3"]
-                : index === 1
-                ? ["span 6", "span 3", "span 3", "span 3", "span 3"]
-                : ["span 6", "span 3", "span 3", "span 3", "span 2"]
-            }
-          >
-            <ArticleCard article={article} />
-          </Box>
-        ))}
-      </Box>
+      <ArticleList articles={articles} />
     </Box>
   );
 };
