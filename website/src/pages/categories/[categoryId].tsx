@@ -2,6 +2,7 @@ import { ArticleList } from "@/components/ArticleList";
 import { MicroCMSSchema, microcmsClient } from "@/microcms/client";
 import { Box, Heading } from "@chakra-ui/react";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import Head from "next/head";
 
 type Props = {
   category: MicroCMSSchema["categories"];
@@ -49,12 +50,17 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({
 
 const CategoryPage: NextPage<Props> = ({ category, articles }) => {
   return (
-    <Box as="main">
-      <Heading fontSize="2xl" fontWeight="500" marginBottom="8">
-        {category.name} の記事一覧
-      </Heading>
-      <ArticleList articles={articles} />
-    </Box>
+    <>
+      <Head>
+        <title>{category.name} の記事一覧 | Web Push Media</title>
+      </Head>
+      <Box as="main">
+        <Heading fontSize="2xl" fontWeight="500" marginBottom="8">
+          {category.name} の記事一覧
+        </Heading>
+        <ArticleList articles={articles} />
+      </Box>
+    </>
   );
 };
 

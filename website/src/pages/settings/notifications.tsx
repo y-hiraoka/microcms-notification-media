@@ -60,7 +60,7 @@ const NotificationsSettingsPage: NextPage<Props> = ({ categories }) => {
   return (
     <>
       <Head>
-        <title>通知設定</title>
+        <title>通知設定 | Web Push Media</title>
       </Head>
       <Box as="main">
         <Heading fontSize="2xl" fontWeight="500" marginBottom="8">

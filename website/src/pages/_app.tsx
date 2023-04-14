@@ -4,6 +4,7 @@ import { AppHeader } from "@/components/AppHeader";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { AppType } from "next/app";
 import { AppSideNav } from "@/components/AppSideNav";
+import Head from "next/head";
 
 const theme = extendTheme({
   styles: {
@@ -30,14 +31,19 @@ const theme = extendTheme({
 
 const NextApp: AppType = ({ Component, pageProps }) => {
   return (
-    <ChakraProvider theme={theme}>
-      <AppLayout>
-        <AppHeader />
-        <Component {...pageProps} />
-        <AppSideNav />
-        <AppFooter />
-      </AppLayout>
-    </ChakraProvider>
+    <>
+      <Head>
+        <title>Web Push Media</title>
+      </Head>
+      <ChakraProvider theme={theme}>
+        <AppLayout>
+          <AppHeader />
+          <Component {...pageProps} />
+          <AppSideNav />
+          <AppFooter />
+        </AppLayout>
+      </ChakraProvider>
+    </>
   );
 };
 

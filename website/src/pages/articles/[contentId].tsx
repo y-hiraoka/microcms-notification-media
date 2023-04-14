@@ -61,7 +61,7 @@ const ArticlePage: NextPage<Props> = ({ article, relatedArticles }) => {
   return (
     <>
       <Head>
-        <title>{article.title}</title>
+        <title>{article.title} | Web Push Media</title>
       </Head>
       <Box as="main">
         {article.thumbnail && (
