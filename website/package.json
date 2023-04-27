@@ -20,7 +20,7 @@
     "eslint-config-next": "^13.3.0",
     "firebase": "^9.19.1",
     "framer-motion": "^10.11.6",
-    "microcms-ts-sdk": "^0.4.2",
+    "microcms-ts-sdk": "^0.4.3",
     "next": "^13.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
