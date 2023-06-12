@@ -62,6 +62,23 @@ const ArticlePage: NextPage<Props> = ({ article, relatedArticles }) => {
     <>
       <Head>
         <title>{article.title} | Web Push Media</title>
+        <meta property="og:title" content={article.title} />
+        <meta property="og:type" content="article" />
+        {article.thumbnail && (
+          <meta property="og:image" content={article.thumbnail.url} />
+        )}
+        {article.thumbnail?.width && (
+          <meta
+            property="og:image:width"
+            content={article.thumbnail.width.toString()}
+          />
+        )}
+        {article.thumbnail?.height && (
+          <meta
+            property="og:image:height"
+            content={article.thumbnail.height.toString()}
+          />
+        )}
       </Head>
       <Box as="main">
         {article.thumbnail && (
