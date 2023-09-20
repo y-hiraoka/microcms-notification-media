@@ -1,29 +1,10 @@
-const { createClient } = require("microcms-js-sdk");
 const { format } = require("date-fns");
 const ja = require("date-fns/locale/ja");
 const { faker } = require("@faker-js/faker");
+const { getMicroCMSClient } = require("./getMicroCMSClient");
 
 const main = async () => {
-  const MICROCMS_API_DOMAIN = (() => {
-    if (process.env.MICROCMS_API_DOMAIN) {
-      return process.env.MICROCMS_API_DOMAIN;
-    } else {
-      throw new Error("process.env.MICROCMS_API_DOMAIN must be set.");
-    }
-  })();
-
-  const MICROCMS_API_KEY = (() => {
-    if (process.env.MICROCMS_API_KEY) {
-      return process.env.MICROCMS_API_KEY;
-    } else {
-      throw new Error("process.env.MICROCMS_API_KEY must be set.");
-    }
-  })();
-
-  const client = createClient({
-    serviceDomain: MICROCMS_API_DOMAIN,
-    apiKey: MICROCMS_API_KEY,
-  });
+  const client = getMicroCMSClient();
 
   const { contents: categories } = await client.getList({
     endpoint: "categories",

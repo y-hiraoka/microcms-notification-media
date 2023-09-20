@@ -1,0 +1,30 @@
+name: Delete Articles
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 17 * * 0"
+
+defaults:
+  run:
+    working-directory: scripts
+
+jobs:
+  delete_article:
+    name: Delete Article
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+          cache-dependency-path: scripts/package-lock.json
+      - run: npm ci
+      - name: main process
+        env:
+          TZ: Asia/Tokyo
+          MICROCMS_API_DOMAIN: ${{ secrets.MICROCMS_API_DOMAIN }}
+          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+        run: node deleteArticles.js
