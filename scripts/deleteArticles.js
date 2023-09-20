@@ -13,12 +13,14 @@ const main = async () => {
   });
 
   await Promise.all(
-    articles.map(async (article) =>
-      client.delete({
+    articles.map(async (article) => {
+      await client.delete({
         endpoint: "articles",
         contentId: article.id,
-      })
-    )
+      });
+
+      console.log(`Deleted: ${article.title}`);
+    })
   );
 };
 
