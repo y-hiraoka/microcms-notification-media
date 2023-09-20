@@ -6,7 +6,7 @@ const main = async () => {
   const { contents: articles } = await client.getList({
     endpoint: "articles",
     queries: {
-      limit: 1,
+      limit: 14,
       fields: ["id", "title", "publishedAt"],
       orders: "-publishedAt",
     },
